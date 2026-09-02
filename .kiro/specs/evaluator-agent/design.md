@@ -18,7 +18,7 @@ CloudFront /evaluator route
   -> hosted session/IP/attempt authorization
   -> validator
   -> prompt builder
-  -> Bedrock Mantle Chat Completions (GPT OSS 120B)
+  -> Bedrock Mantle Chat Completions (gpt-oss-120b)
   -> scorer
   -> response assembler
   -> JSON response through CloudFront

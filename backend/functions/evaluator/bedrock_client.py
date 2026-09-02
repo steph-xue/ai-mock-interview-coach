@@ -41,7 +41,7 @@ def _request_timeout_seconds() -> int:
 
 
 def invoke(system: str, messages: list, tool_config: dict) -> dict:
-    """Call GPT OSS 120B through Bedrock Mantle and return tool arguments."""
+    """Call gpt-oss-120b through Bedrock Mantle and return tool arguments."""
     request = {
         "model": MODEL_ID,
         "messages": [{"role": "system", "content": system}, *messages],

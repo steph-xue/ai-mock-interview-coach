@@ -144,7 +144,7 @@ export class InfraStack extends cdk.Stack {
     };
 
     // ------------------------------------------------------------------
-    // 1. Analyst Lambda — Bedrock Mantle (GPT OSS 120B)
+    // 1. Analyst Lambda — Bedrock Mantle (gpt-oss-120b)
     // ------------------------------------------------------------------
     const analystFn = new lambda.Function(this, 'AnalystFunction', {
       runtime: lambda.Runtime.PYTHON_3_12,
@@ -189,7 +189,7 @@ export class InfraStack extends cdk.Stack {
     });
 
     // ------------------------------------------------------------------
-    // 2. Evaluator Lambda — Bedrock Mantle (GPT OSS 120B)
+    // 2. Evaluator Lambda — Bedrock Mantle (gpt-oss-120b)
     // ------------------------------------------------------------------
     const evaluatorFn = new lambda.Function(this, 'EvaluatorFunction', {
       runtime: lambda.Runtime.PYTHON_3_12,
@@ -355,7 +355,7 @@ export class InfraStack extends cdk.Stack {
     const functionUrlOrigin = (url: lambda.FunctionUrl) =>
       origins.FunctionUrlOrigin.withOriginAccessControl(url, {
         originAccessControl: apiOriginAccessControl,
-        // GPT OSS requests are capped at 55 seconds; allow a small margin for
+        // gpt-oss-120b requests are capped at 55 seconds; allow a small margin for
         // Lambda response handling without requiring a CloudFront quota raise.
         readTimeout: cdk.Duration.seconds(60),
       });

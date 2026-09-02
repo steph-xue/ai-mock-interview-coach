@@ -15,9 +15,9 @@ Amplify-hosted React/Vite browser
   └─ HTTPS → CloudFront API distribution (OAC)
                ├─ private Demo Session Function URL → DynamoDB admission table
                ├─ private PDF Parser Function URL
-               ├─ private Analyst Function URL (OpenAI GPT OSS 120B)
+               ├─ private Analyst Function URL (OpenAI gpt-oss-120b)
                ├─ private Interviewer Function URL + S3 configuration
-               ├─ private Evaluator Function URL (OpenAI GPT OSS 120B)
+               ├─ private Evaluator Function URL (OpenAI gpt-oss-120b)
                └─ private Voice Session Function URL → signed WSS
                                                        └─ AgentCore relay → Nova 2 Sonic
 ```

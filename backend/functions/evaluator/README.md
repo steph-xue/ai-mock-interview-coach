@@ -39,7 +39,7 @@ Hosted backend changes merged to `main` are tested and deployed with the Lambda/
 
 ## IAM Permissions
 
-The standalone SAM template and CDK stack allow Mantle inference only for GPT OSS 120B, plus the Mantle project lookup actions required by the service:
+The standalone SAM template and CDK stack allow Mantle inference only for gpt-oss-120b, plus the Mantle project lookup actions required by the service:
 
 ```json
 {

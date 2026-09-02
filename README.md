@@ -60,7 +60,7 @@ Many digital mock interviews also rely on text chat or stop-and-start recordings
 
 AI Mock Interview Coach is a full-stack, multi-agent AI web application that gives students a personalized resume deep-dive interview for internship and co-op preparation. Students upload a PDF resume and paste a target job description, which are used to identify the experiences and skills most relevant to the role. Both modes provide live, hands-free, conversational speech-to-speech interviews with natural responses and possible follow-up questions. Practice Mode adds supportive, role-specific guidance and personalized hints based on the student's background, while Live Mode simulates a realistic virtual interview. After the interview, students receive a thorough report with an overall assessment, dimension scores, question-specific strengths and improvements, keyword coverage, and focused next steps.
 
-The application was built with React, TypeScript, CSS, and Vite on the frontend and FastAPI and Python on the backend. The application uses AWS Lambda for the PDF Parser, Analyst Agent, Voice Session, Interviewer Agent, Evaluator Agent, and Demo Session admission controller. The Analyst and Evaluator Agents use OpenAI GPT OSS 120B through Amazon Bedrock, while the Interviewer Agent runs on Amazon Bedrock AgentCore and uses WebSocket-based bidirectional streaming with Amazon Nova 2 Sonic. Amazon S3 stores the interview configuration, AWS CDK defines the backend cloud infrastructure, and Docker containerizes the AgentCore voice relay. Amazon CloudFront routes hosted API traffic, and AWS Amplify serves the deployed application. Amazon DynamoDB stores hosted session and usage-limit records, while Amazon CloudWatch Alarms, Amazon SNS, and AWS Budgets provide monitoring and cost controls.
+The application was built with React, TypeScript, CSS, and Vite on the frontend and FastAPI and Python on the backend. The application uses AWS Lambda for the PDF Parser, Analyst Agent, Voice Session, Interviewer Agent, Evaluator Agent, and Demo Session admission controller. The Analyst and Evaluator Agents use OpenAI gpt-oss-120b through Amazon Bedrock, while the Interviewer Agent runs on Amazon Bedrock AgentCore and uses WebSocket-based bidirectional streaming with Amazon Nova 2 Sonic. Amazon S3 stores the interview configuration, AWS CDK defines the backend cloud infrastructure, and Docker containerizes the AgentCore voice relay. Amazon CloudFront routes hosted API traffic, and AWS Amplify serves the deployed application. Amazon DynamoDB stores hosted session and usage-limit records, while Amazon CloudWatch Alarms, Amazon SNS, and AWS Budgets provide monitoring and cost controls.
 
 <br>
 
@@ -162,10 +162,10 @@ After the interview, the Evaluator Agent turns the completed conversation into a
 | Frontend | React, TypeScript, CSS, Vite |
 | Backend | FastAPI, Python |
 | PDF Parser | AWS Lambda, pypdf |
-| Analyst Agent | AWS Lambda, OpenAI GPT OSS 120B through Amazon Bedrock |
+| Analyst Agent | AWS Lambda, OpenAI gpt-oss-120b through Amazon Bedrock |
 | Voice Session | AWS Lambda |
 | Interviewer Agent | AWS Lambda, Amazon Nova 2 Sonic through Amazon Bedrock, WebSocket-based bidirectional voice relay on Amazon Bedrock AgentCore |
-| Evaluator Agent | AWS Lambda, OpenAI GPT OSS 120B through Amazon Bedrock |
+| Evaluator Agent | AWS Lambda, OpenAI gpt-oss-120b through Amazon Bedrock |
 | Interview Configuration | Amazon S3 |
 | Development Workflow | Kiro, spec-driven development
 | Backend Cloud Infrastructure | AWS CDK |
@@ -194,7 +194,7 @@ The browser orchestrates the workflow and retains the active interview content. 
 
 ### Resume and Job Analysis
 
-The browser first sends the PDF resume and job-description text to the PDF Parser. The parser extracts the resume text with pypdf and returns both documents in a normalized response. The Analyst Agent receives that content, builds a role-aware prompt, and calls GPT OSS 120B through Amazon Bedrock with a forced structured-output function. The resulting Analyst output includes the student's background, relevant skills, target-role requirements, strongest experiences, measurable claims, alignment evidence, and analysis warnings.
+The browser first sends the PDF resume and job-description text to the PDF Parser. The parser extracts the resume text with pypdf and returns both documents in a normalized response. The Analyst Agent receives that content, builds a role-aware prompt, and calls gpt-oss-120b through Amazon Bedrock with a forced structured-output function. The resulting Analyst output includes the student's background, relevant skills, target-role requirements, strongest experiences, measurable claims, alignment evidence, and analysis warnings.
 
 ### Personalized Interview Context
 
@@ -208,15 +208,15 @@ Nova is instructed to ask three main questions and one adaptive follow-up after 
 
 ### Feedback Evaluation
 
-When the interview finishes, the frontend pairs final interviewer and student transcript entries into the canonical Evaluator request. The Evaluator Agent calls GPT OSS 120B through Amazon Bedrock with a forced feedback function, validates the returned structure, aggregates deterministic scores, assigns a readiness label, and assembles the final report. Each completed answer is scored independently, while the report combines those results into overall strengths, improvements, keyword coverage, contextual advice, and interview metadata.
+When the interview finishes, the frontend pairs final interviewer and student transcript entries into the canonical Evaluator request. The Evaluator Agent calls gpt-oss-120b through Amazon Bedrock with a forced feedback function, validates the returned structure, aggregates deterministic scores, assigns a readiness label, and assembles the final report. Each completed answer is scored independently, while the report combines those results into overall strengths, improvements, keyword coverage, contextual advice, and interview metadata.
 
 ### Models and Contracts
 
 | Agent | Model or Service |
 |---|---|
-| Analyst | OpenAI GPT OSS 120B through Amazon Bedrock |
+| Analyst | OpenAI gpt-oss-120b through Amazon Bedrock |
 | Interviewer | Amazon Nova 2 Sonic through Amazon Bedrock, Amazon Bedrock AgentCore |
-| Evaluator | OpenAI GPT OSS 120B through Amazon Bedrock |
+| Evaluator | OpenAI gpt-oss-120b through Amazon Bedrock |
 
 Inter-agent payload definitions live in `schemas/`:
 
@@ -351,7 +351,7 @@ Follow the steps below to set up and run the application on your own machine. Th
 
 Make sure Node.js, npm, Python 3, and AWS CLI are installed before you begin. You can check all four by running the commands below, which should each print a version number.
 
-> **Note:** This project requires Node.js 20+, Python 3.12, and AWS CLI v2.32.0+ because the recommended browser-based authentication method uses `aws login`. Local AWS credentials must have access to OpenAI GPT OSS 120B and Amazon Nova 2 Sonic in `us-east-1`.
+> **Note:** This project requires Node.js 20+, Python 3.12, and AWS CLI v2.32.0+ because the recommended browser-based authentication method uses `aws login`. Local AWS credentials must have access to OpenAI gpt-oss-120b and Amazon Nova 2 Sonic in `us-east-1`.
 
 ```bash
 node --version
@@ -467,6 +467,6 @@ Once both servers are running, open the local URL displayed by Vite and allow mi
 
 - **Port 8080 is already in use:** Run `lsof -nP -iTCP:8080 -sTCP:LISTEN`, stop the previous backend process, and start the server again.
 - **AWS login has expired:** Run `aws login` again, or refresh the configured profile or temporary credentials.
-- **AccessDenied or model quota error:** Confirm that the identity returned by `aws sts get-caller-identity` can use GPT OSS 120B and Nova 2 Sonic in `us-east-1`.
+- **AccessDenied or model quota error:** Confirm that the identity returned by `aws sts get-caller-identity` can use gpt-oss-120b and Nova 2 Sonic in `us-east-1`.
 - **Microphone access is blocked:** Allow microphone permission for the local Vite URL in the browser settings, then refresh the page.
 - **The repository was moved:** Recreate the backend virtual environment so its executable paths point to the current checkout.

@@ -29,7 +29,7 @@ sequenceDiagram
     participant DynamoDB as admission table
     participant PdfParser as pdf_parser Lambda
     participant Analyst as analyst Lambda
-    participant Bedrock as Bedrock Mantle (GPT OSS)
+    participant Bedrock as Bedrock Mantle (gpt-oss-120b)
     participant Interviewer as interviewer Lambda
     participant VoiceSession as voice_session Lambda
     participant AgentCore as AgentCore voice relay
@@ -219,7 +219,7 @@ def detect_invocation_mode(event: dict) -> dict:
     """Same dual-mode detection as pdf_parser."""
 ```
 
-#### prompt_builder.py — GPT OSS Prompt Construction
+#### prompt_builder.py — gpt-oss-120b Prompt Construction
 
 ```python
 MODEL_ID = "openai.gpt-oss-120b"
@@ -233,7 +233,7 @@ def build_chat_request(resume_text: str, job_posting_text: str) -> dict:
     - tool_choice forcing the model to call analyst_output
     
     The tool definition's inputSchema mirrors schemas/analyst_output.json.
-    This forces GPT OSS to produce structured JSON matching the schema.
+    This forces gpt-oss-120b to produce structured JSON matching the schema.
     
     Returns:
         dict ready to pass to bedrock_client.call_chat_completion(request)
@@ -600,7 +600,7 @@ if local schema validation fails:
 
 - `backend/functions/pdf_parser/tests/test_validation.py` covers the ten validation and invocation-mode cases migrated from the original standalone check script.
 - `tests/integration/test_pipeline.py` runs a mocked Analyst → Interviewer → Evaluator contract flow in isolated subprocesses.
-- Analyst operational tests cover the Bedrock timeout/retry configuration, GPT OSS 120B model, the hosted 4,096/local 8,192-token budgets, hosted input caps, and one schema-recovery call.
+- Analyst operational tests cover the Bedrock timeout/retry configuration, gpt-oss-120b model, the hosted 4,096/local 8,192-token budgets, hosted input caps, and one schema-recovery call.
 - Evaluator and Interviewer have their own unit suites under their function directories.
 - There is currently no PDF extraction/orchestrator suite, Hypothesis suite, or real-AWS integration suite.
 

@@ -46,8 +46,8 @@ One stack defines the HTTP backend and interview configuration. The AgentCore vo
 | S3 Bucket | `InterviewConfigBucket` | Stores interview structure and interview profile JSON configs |
 | DynamoDB Table | `HostedInterviewSessions` | Stores expiring hashed session/quota records only |
 | Demo Session Lambda | `DemoSessionFunction` | Atomically enforces daily global/viewer limits and issues opaque tokens |
-| Analyst Lambda | `AnalystFunction` | Calls Bedrock Mantle (GPT OSS 120B) to analyze the resume against the job description |
-| Evaluator Lambda | `EvaluatorFunction` | Calls Bedrock Mantle (GPT OSS 120B) to score the candidate's interview transcript |
+| Analyst Lambda | `AnalystFunction` | Calls Bedrock Mantle (gpt-oss-120b) to analyze the resume against the job description |
+| Evaluator Lambda | `EvaluatorFunction` | Calls Bedrock Mantle (gpt-oss-120b) to score the candidate's interview transcript |
 | Interviewer Lambda | `InterviewerFunction` | Reads config from S3, builds runtime context for Nova Sonic (no LLM call) |
 | PDF Parser Lambda | `PdfParserFunction` | Extracts text from uploaded resumes using pypdf |
 | Voice Session Lambda | `VoiceSessionFunction` | Creates five-minute signed AgentCore WebSocket URLs |
@@ -153,7 +153,7 @@ The application workflow requires repository variables for the deployment-role A
 | Issue | Fix |
 |-------|-----|
 | Missing AWS identity at startup | Configure an AWS profile or temporary environment credentials, then confirm with `aws sts get-caller-identity`. |
-| Model access error | Confirm the active AWS identity can invoke GPT OSS 120B and Nova 2 Sonic in `us-east-1`. |
+| Model access error | Confirm the active AWS identity can invoke gpt-oss-120b and Nova 2 Sonic in `us-east-1`. |
 | Python import error | Install `backend/requirements-local.txt` in the active virtual environment. |
 | Port 8080 is already in use | Run `lsof -nP -iTCP:8080 -sTCP:LISTEN`, stop the previous local backend, and retry. The backend uses port 8080; Vite normally uses port 5173. |
 | Hosted-mode CORS failure from local Vite | Use exactly `http://localhost:5173`; stop the existing Vite listener rather than allowing a fallback to port 5174. |

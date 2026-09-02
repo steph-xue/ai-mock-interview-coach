@@ -40,7 +40,7 @@ The application has no end-user login. Hosted tokens last two hours, are bound t
 
 ## Local Run
 
-The combined local backend resolves credentials through boto3's standard chain. Use a configured AWS profile with access to GPT OSS 120B and Nova 2 Sonic:
+The combined local backend resolves credentials through boto3's standard chain. Use a configured AWS profile with access to gpt-oss-120b and Nova 2 Sonic:
 
 ```bash
 export AWS_PROFILE="<profile-name>"

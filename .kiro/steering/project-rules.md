@@ -13,7 +13,7 @@ Shared conventions for the mock interview application. When this file and an old
 
 ## Models and Services
 
-Agents use the service appropriate to their role. Analyst and Evaluator intentionally share GPT OSS 120B.
+Agents use the service appropriate to their role. Analyst and Evaluator intentionally share gpt-oss-120b.
 
 | Component | Model / Service |
 |---|---|

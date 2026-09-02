@@ -49,7 +49,7 @@ Hosted mode reads one `VITE_API_BASE_URL` from its environment and uses its `/se
 
 ### Local development workflow
 
-Prerequisites are Python 3.12, Node.js with npm, AWS CLI v2, and AWS credentials with GPT OSS 120B and Nova 2 Sonic access in `us-east-1`. Model availability and quotas are account-specific.
+Prerequisites are Python 3.12, Node.js with npm, AWS CLI v2, and AWS credentials with gpt-oss-120b and Nova 2 Sonic access in `us-east-1`. Model availability and quotas are account-specific.
 
 For a configured AWS profile, export the profile and region. IAM Identity Center profiles also need an active SSO login:
 
